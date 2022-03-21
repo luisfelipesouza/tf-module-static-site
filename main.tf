@@ -53,6 +53,10 @@ resource "aws_s3_bucket_cors_configuration" "example" {
 }
 
 resource "null_resource" "upload_content" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  
   provisioner "local-exec" {
     command = "aws s3 sync ${var.content_path} s3://${aws_s3_bucket.website.id}"
   }
